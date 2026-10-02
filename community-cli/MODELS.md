@@ -1,35 +1,23 @@
-# Supported Models
+# Public Model Connector Registry
 
-Signalproof Community CLI 0.2.0 currently enables these exact local routes.
+Signalproof Intelligence Community CLI 0.3.0 declares four local connector targets. **No model weights are distributed by this repository.**
 
-## Qwen
+| Alias | Exact local tag | Upstream | Signalproof role |
+| --- | --- | --- | --- |
+| `granite` | `granite4.2:8b` | IBM | connector only |
+| `qwen` | `qwen3.6:latest` | Qwen / Alibaba | connector only |
+| `gemma` | `gemma4:latest` | Google | connector only |
+| `ministral` | `ministral-3:3b` | Mistral AI | connector only |
 
-- CLI alias: `qwen`
-- Ollama tag: `qwen3.6:latest`
-- route mode: `NON_EXECUTING_ADVISORY`
-- direct model authority: `false`
-- transport: local Ollama loopback only
+For every connector:
 
-## Granite
+- transport: user-owned local Ollama loopback;
+- mode: `NON_EXECUTING_ADVISORY`;
+- direct model authority: `false`;
+- model install authority: `false`;
+- bundled weights: `false`;
+- silent model fallback: prohibited.
 
-- CLI alias: `granite`
-- Ollama tag: `granite4.2:8b`
-- route mode: `NON_EXECUTING_ADVISORY`
-- direct model authority: `false`
-- transport: local Ollama loopback only
+The user is responsible for obtaining and operating any selected model/runtime under the applicable upstream license and terms. Signalproof does not relicense upstream model weights.
 
-## Model setup
-
-Run:
-
-```text
-signalproof-community setup
-```
-
-For each missing supported model, the CLI asks whether the user wants to run the corresponding exact `ollama pull` command. A declined model is not downloaded. There is no silent substitution.
-
-## Not included in this revision
-
-Gemma and Ministral are deliberately not part of this pack yet. They can be added as additional exact routes after their own acceptance, license review, tests, and release decision.
-
-Cloud/API provider routes and private workers are also outside this sanitized local-only release.
+Sagittarius Horizon names the current Signalproof generation. The proprietary Sagittarius Horizon model is **not** distributed by this public Community CLI and is not represented as one of these four upstream connector targets.
