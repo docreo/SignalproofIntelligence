@@ -79,7 +79,7 @@ def color_enabled(stream=None) -> bool:
     )
 
 
-ANSI_RE = re.compile(r"\x1b\\[[0-9;]*m")
+ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 
 
 def _visible_len(value: str) -> int:
