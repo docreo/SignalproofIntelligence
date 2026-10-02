@@ -1,39 +1,46 @@
 # Sanitization Report
 
-Repository: `docreo/docreo-Signalproof-Public1`
+Repository: `docreo/SignalproofIntelligence`  
+Candidate: `community-cli-v2-rd1-sanitized-four-model-20261002`
 
-This repository was created fresh and does not inherit Git history from the previous public repository.
+## Migration source
+
+The Community CLI originated from the sanitized Public1 `community-cli/` surface. It was copied into this fresh public repository without importing private Signalproof Git history or private runtime files.
 
 ## Included
 
-- Signalproof Community CLI 0.2.0
-- exact local Qwen3.6 and Granite 4.2 8B routes
-- Build Your Own AI CLI guide
-- generic starter template
-- six CLI Builder skills
-- public-boundary documentation
-- automated sanitization CI
-- Apache License 2.0 and third-party notices
+- stable `community-cli/` directory;
+- `signalproof-community` launcher;
+- Signalproof-authored standard-library installer;
+- four local connector declarations: Granite, Qwen, Gemma, Ministral;
+- local loopback-only advisory inference;
+- site-matched V3/RD4 terminal presentation implemented with public-only state;
+- Apache-2.0 repository license for Signalproof-authored work;
+- third-party notices;
+- public boundary and security documentation;
+- CODEOWNERS / PR template;
+- CI for tests and sanitization.
 
 ## Explicitly excluded
 
-- connected-site application data and website deltas
-- private VPS/server routes and server inventories
-- SSH identities, keys, credentials, tokens, or private connectors
-- tenant/customer state
-- internal development or assurance evidence
-- private model-training state
-- developer workstation paths, worktrees, quarantine/evidence paths, or mount locations
-- private-network topology
-- inherited authentication to private Signalproof infrastructure
+- model weights and model download/install logic;
+- private Signalproof model routes and internal route IDs;
+- private servers, VPS workers, SSH surfaces, infrastructure inventory;
+- private credentials, connectors, tenant state, customer data;
+- private model-training state/checkpoints;
+- internal development, Build Ledger, Assurance, quarantine, or runtime evidence;
+- developer workstation paths/worktrees/mounts;
+- private-network topology;
+- inherited authentication to private Signalproof infrastructure.
 
 ## Runtime boundary
 
-The Community CLI is local-only. It accepts only HTTP loopback model transport and has no route to private Signalproof infrastructure.
+The Community CLI connects only to exact model tags already present in the user's own local Ollama inventory. Missing models fail closed. Route changes are explicit. No silent substitution occurs.
 
-## Visual-parity update (Public1 V1/RD2)
+## Visual boundary
 
-- Public chat presentation and SVG preview now share the accepted gold/red wordmark and plain session layout. They do not include the rejected Sagittarius dashboard.
-- All preview identity data is generic (`LOCAL USER`); the only model shown is the publicly supported local Granite tag. Live readiness is never invented: displayed initial state is `UNVERIFIED`.
-- Public-only command vocabulary and `SP://COMMUNITY` are used. No protected Signal Keys, private Orchestrator implementation, infrastructure details, private logs or developer paths were imported.
-- Public policy remains advisory-only and loopback-only; existing exact-route and transport code remains unchanged.
+The site/private visual language is reproduced independently: six-row gold/yellow wordmark, red rules, Signalproof Intelligence header, thin gold status box, green user prompt, and Sagittarius Horizon generation line. All private status values are replaced by public facts.
+
+## Model distribution boundary
+
+`weights_bundled=false` and `model_install_authority=false` are part of the runtime reporting contract. The repository contains no model binaries and no model-pull execution path.
