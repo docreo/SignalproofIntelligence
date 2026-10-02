@@ -1,25 +1,22 @@
 # Third-Party Notices
 
-This repository contains Signalproof-authored software and documentation that interoperates with third-party software and models. Third-party components retain their own upstream licenses, copyrights, trademarks, and terms.
+Signalproof-authored source in this repository interoperates with software and model families supplied by other organizations. Third-party trademarks, software, model weights, licenses, acceptable-use terms, and other obligations remain with their respective owners.
 
-## Ollama
+## Local runtime
 
-- Role: local model runtime/API used by the Community CLI.
-- Bundled in this repository: no.
-- Source/terms: retained by the upstream project.
+The Community CLI can communicate with a user-operated local Ollama service over loopback. Ollama is not bundled by this repository.
 
-## Qwen3.6
+## Model connectors
 
-- Upstream family: Qwen / Alibaba.
-- Community CLI exact tag: `qwen3.6:latest`.
-- Model weights bundled: no.
-- Signalproof modification of upstream model weights: none.
+This release declares connector names for:
 
-## IBM Granite 4.2
+- IBM Granite: `granite4.2:8b`
+- Qwen / Alibaba: `qwen3.6:latest`
+- Google Gemma: `gemma4:latest`
+- Mistral AI Ministral: `ministral-3:3b`
 
-- Upstream family: IBM Granite.
-- Community CLI exact tag: `granite4.2:8b`.
-- Model weights bundled: no.
-- Signalproof modification of upstream model weights: none.
+**No model weights are included, downloaded, mirrored, hosted, sublicensed, or redistributed by Signalproof Intelligence Community CLI.**
 
-Before redistribution of any third-party component or model weights, verify the then-current upstream license and notice obligations.
+Users obtain and operate any model independently and are responsible for the applicable upstream license and terms. A connector name or compatibility declaration is not a claim that Signalproof owns, created, modified, or relicensed those weights.
+
+Signalproof-authored repository code and documentation are licensed as stated in the repository LICENSE. That license does not replace third-party terms.

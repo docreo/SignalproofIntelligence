@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1320" height="750" viewBox="0 0 1320 750" role="img" aria-labelledby="title desc">
-  <title id="title">Signalproof Public1 Community CLI plain terminal preview</title>
-  <desc id="desc">Sanitized preview of Community CLI chat granite: six-row gold Unicode SIGNALPROOF wordmark, red dividers and plain public-only status lines. No private Orchestrator, private identity, Sagittarius art or framed dashboard.</desc>
+  <title id="title">Signalproof Intelligence Community CLI V2/RD1 site-matched preview</title>
+  <desc id="desc">Sanitized Community CLI preview matching the Signalproof Intelligence site: six-row gold wordmark, red separators, thin gold status frame, four local model connector commands, green prompt and Sagittarius Horizon generation line. No private route identifiers or model weights.</desc>
   <rect width="1320" height="750" fill="#101010"/>
   <style>
     .mono{font-family:"Cascadia Mono",Consolas,"DejaVu Sans Mono",monospace}
@@ -8,7 +8,9 @@
     .normal{font-size:20px;fill:#e6e6e6;font-weight:650}
     .header{font-size:19px;fill:#ffdb32;font-weight:700}
     .small{font-size:18px;fill:#dedede;font-weight:600}
+    .commands{font-size:15.8px;fill:#dedede;font-weight:600}
   </style>
+
   <text xml:space="preserve" class="mono banner" x="28" y="68" fill="#57301b" opacity=".8" transform="translate(2,4)">███████╗ ██╗  ██████╗  ███╗   ██╗  █████╗  ██╗      ██████╗  ██████╗   ██████╗   ██████╗  ███████╗</text>
   <text xml:space="preserve" class="mono banner" x="28" y="68" fill="#ffe456">███████╗ ██╗  ██████╗  ███╗   ██╗  █████╗  ██╗      ██████╗  ██████╗   ██████╗   ██████╗  ███████╗</text>
   <text xml:space="preserve" class="mono banner" x="28" y="97" fill="#57301b" opacity=".8" transform="translate(2,4)">██╔════╝ ██║ ██╔════╝  ████╗  ██║ ██╔══██╗ ██║      ██╔══██╗ ██╔══██╗ ██╔═══██╗ ██╔═══██╗ ██╔════╝</text>
@@ -21,29 +23,39 @@
   <text xml:space="preserve" class="mono banner" x="28" y="184" fill="#cf8837">███████║ ██║ ╚██████╔╝ ██║ ╚████║ ██║  ██║ ███████╗ ██║      ██║  ██║ ╚██████╔╝ ╚██████╔╝ ██║</text>
   <text xml:space="preserve" class="mono banner" x="28" y="213" fill="#57301b" opacity=".8" transform="translate(2,4)">╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝      ╚═╝  ╚═╝  ╚═════╝   ╚═════╝  ╚═╝</text>
   <text xml:space="preserve" class="mono banner" x="28" y="213" fill="#bd742c">╚══════╝ ╚═╝  ╚═════╝  ╚═╝  ╚═══╝ ╚═╝  ╚═╝ ╚══════╝ ╚═╝      ╚═╝  ╚═╝  ╚═════╝   ╚═════╝  ╚═╝</text>
+
   <path d="M 24 254 H 1266 M 24 259 H 1266 M 24 329 H 1266 M 24 334 H 1266" stroke="#e51d37" stroke-width="2" fill="none"/>
-  <text class="mono header" x="28" y="287">SIGNALPROOF</text>
-  <text class="mono header" x="198" y="287" style="fill:#f22747">//</text>
-  <text class="mono header" x="249" y="287">HUMAN-CONTROLLED AI SYSTEMS</text>
-  <text class="mono header" x="28" y="319" style="fill:#f22747">SP://COMMUNITY</text>
+  <text class="mono header" x="28" y="287" fill="#ffdb32">SIGNALPROOF INTELLIGENCE</text>
+  <text class="mono header" x="313" y="287" fill="#e92744">//</text>
+  <text class="mono header" x="356" y="287">HUMAN-CONTROLLED AI SYSTEMS</text>
+  <text class="mono header" x="28" y="319" fill="#f22747">SP://COMMUNITY</text>
   <text class="mono small" x="229" y="319">//</text>
-  <text class="mono header" x="273" y="319">COMMUNITY 0.2.0</text>
-  <text class="mono small" x="507" y="319">//</text>
-  <text class="mono header" x="553" y="319">LOCAL ONLY</text>
-  <g class="mono normal" xml:space="preserve">
-    <text x="36" y="385">SIGNALPROOF COMMUNITY CLI</text>
-    <text x="36" y="414">OPERATOR     LOCAL USER</text>
-    <text x="36" y="443">TRANSPORT    LOOPBACK ONLY</text>
-    <text x="36" y="472">ROUTE        granite</text>
-    <text x="36" y="501">MODEL        granite4.2:8b</text>
-    <text x="36" y="530">STATE        UNVERIFIED (checked on first prompt)</text>
+  <text class="mono header" x="273" y="319">CORE V2/RD1</text>
+  <text class="mono small" x="448" y="319">//</text>
+  <text class="mono header" x="495" y="319">VISUAL V3/RD4</text>
+
+  <g role="group" aria-label="Sanitized Community CLI status panel with site-matched thin gold frame">
+    <rect x="24" y="355" width="1242" height="220" fill="none" stroke="#FFD700" stroke-width="2"/>
+    <rect x="48" y="342" width="352" height="29" fill="#101010"/>
+    <text class="mono normal" x="53" y="363" fill="#FFD700" style="fill:#FFD700">SIGNALPROOF COMMUNITY CLI</text>
+    <g class="mono normal" xml:space="preserve">
+      <text x="44" y="396">OPERATOR     LOCAL USER</text>
+      <text x="44" y="426">TRANSPORT    LOOPBACK ONLY</text>
+      <text x="44" y="456">ROUTE        granite</text>
+      <text x="44" y="486">MODEL        IBM Granite 4.2 8B</text>
+      <text x="44" y="516">TAG          granite4.2:8b</text>
+      <text x="44" y="546">STATE        UNVERIFIED (CHECKED ON FIRST PROMPT)</text>
+    </g>
   </g>
+
   <g class="mono small">
-    <text x="32" y="593">Commands: /exit  /quit</text>
-    <text x="32" y="623">No silent model failover. Advisory-only; no tool authority.</text>
+    <text class="commands" x="32" y="615">Commands: /help  /status  /routes  /model granite  /model qwen  /model gemma  /model ministral  /exit</text>
+    <text x="32" y="645">No silent model failover. Model changes require an explicit /model command.</text>
   </g>
-  <text class="mono normal" x="32" y="657" style="fill:#43cf75">YOU</text>
-  <text class="mono normal" x="87" y="657" style="fill:#9d9d9d">[granite]</text>
-  <text class="mono normal" x="200" y="657" style="fill:#43cf75">&gt;</text>
-  <rect x="225" y="640" width="2" height="23" fill="#dedede"/>
+
+  <text class="mono normal" x="32" y="681" fill="#43cf75" style="fill:#43cf75">YOU</text>
+  <text class="mono normal" x="87" y="681" fill="#9d9d9d" style="fill:#9d9d9d">[granite]</text>
+  <text class="mono normal" x="200" y="681" fill="#43cf75" style="fill:#43cf75">&gt;</text>
+  <rect x="225" y="664" width="2" height="23" fill="#dedede"/>
+  <text class="mono small" x="32" y="725" fill="#ffd700" style="fill:#ffd700">SAGITTARIUS HORIZON  //  GENERATION V1  //  COMMUNITY CONNECTORS</text>
 </svg>

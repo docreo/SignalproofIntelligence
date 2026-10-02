@@ -1,97 +1,103 @@
-# Signalproof Community CLI
+# Signalproof Intelligence Community CLI
 
-Free, sanitized, local-only community edition of the Signalproof command-line model surface.
+Sanitized, local-only public connector edition of the Signalproof CLI.
 
-This public edition is intentionally smaller than the private Signalproof engineering runtime. It contains no private server addresses, SSH identities, tenant configuration, private connectors, internal build records, private model-training state, or proprietary credentials.
+The directory and launcher remain stable:
 
-## What it runs today
+- repository path: `community-cli/`
+- command: `signalproof-community`
+- current community release: `0.3.0`
+- current community build identity: `V2/RD1`
+- visual language: `V3/RD4`
+- generation family: `Sagittarius Horizon`
 
-| CLI alias | Exact Ollama tag | Mode |
+## What this public CLI does
+
+It connects to supported models that **the user already has installed** in their own local Ollama runtime. It does not ship, download, install, mirror, host, or redistribute model weights.
+
+| Alias | Exact local Ollama tag | Upstream family |
 | --- | --- | --- |
-| `qwen` | `qwen3.6:latest` | Governed non-executing advisory |
-| `granite` | `granite4.2:8b` | Governed non-executing advisory |
+| `granite` | `granite4.2:8b` | IBM Granite |
+| `qwen` | `qwen3.6:latest` | Qwen / Alibaba |
+| `gemma` | `gemma4:latest` | Google Gemma |
+| `ministral` | `ministral-3:3b` | Mistral AI Ministral |
 
-Both routes are explicit. There is no silent substitution to another model.
+These are connector declarations, not bundled dependencies and not claims that Signalproof created or retrained the upstream weights.
 
 ## Requirements
 
-- Python 3.11 or newer
-- Ollama installed and running locally on `127.0.0.1:11434`
-- enough disk/RAM for whichever supported model the user chooses
+- Python 3.11+
+- a user-managed local Ollama service on loopback
+- any supported model the user independently chooses to install under its upstream terms
 
-The model weights are not bundled.
-
-## Install
+## Install the CLI
 
 ```text
 python install.py
 ```
 
-On Windows, the launcher is created under:
+The source installer installs only the Signalproof-authored Community CLI and launcher. It installs no model runtime and no model weights.
 
-```text
-%USERPROFILE%\.signalproof-community\bin
-```
-
-## Guided model setup
+## Read-only readiness check
 
 ```text
 signalproof-community setup
-```
-
-For each missing route, the CLI asks before running the exact `ollama pull` command. The default answer is no.
-
-To check only one route:
-
-```text
-signalproof-community setup --model qwen
-signalproof-community setup --model granite
-```
-
-Manual installation remains available:
-
-```text
-ollama pull qwen3.6:latest
-ollama pull granite4.2:8b
-```
-
-## Accepted plain terminal presentation
-
-Interactive `chat` now uses the same gold/red six-row Signalproof wordmark and uncluttered status layout as the owner-accepted private CLI design. This public presentation is implemented independently and displays **only real public-edition capabilities**: the explicitly selected local Qwen or Granite route, loopback-only transport and an unverified state until a request checks the local runtime. It does not implement the private Orchestrator, Signal Keys or private server connections. On narrow terminals the banner becomes a single-line wordmark; `NO_COLOR=1` disables ANSI styling. JSON and machine-readable commands are unchanged.
-
-## Use
-
-```text
-signalproof-community models
 signalproof-community status
-signalproof-community ask qwen "Explain the difference between a model and a model route."
-signalproof-community ask granite "Summarize this paragraph."
-signalproof-community chat qwen
-signalproof-community chat granite
+signalproof-community models
 ```
 
-## Governance boundary
+`setup` is retained for Public1 compatibility but is now read-only. It reports which exact connectors are available locally and never performs a model download.
 
-The public community edition is deliberately advisory-only:
+## Chat
 
-- exact route selection
-- no silent fallback
-- local loopback-only transport
-- exact model digest surfaced
-- no bundled secrets
-- no remote server control
-- no private connectors
-- no model tool authority
-- explicit human approval before optional model downloads
+```text
+signalproof-community chat granite
+signalproof-community chat qwen
+signalproof-community chat gemma
+signalproof-community chat ministral
+```
 
-This is an execution boundary around upstream models. It is not a claim that the models were retrained or modified by Signalproof.
+Inside chat:
 
-## Learn to build your own
+```text
+/help
+/status
+/routes
+/model granite
+/model qwen
+/model gemma
+/model ministral
+/exit
+```
 
-See `../build-your-own-cli/BUILD-YOUR-OWN-CLI.md`.
+A model change is explicit. If the requested exact model is missing locally, the route remains unchanged. There is no silent fallback.
 
-## Status
+## Visual contract
 
-Community release: **0.2.0**
+The public CLI mirrors the approved site/private CLI visual language without importing private runtime state:
 
-Pack revision: **V1/RD1**
+- six-row gold/yellow Signalproof wordmark;
+- red separator rules;
+- Signalproof Intelligence / Human-Controlled AI Systems heading;
+- `SP://COMMUNITY` public plane;
+- thin gold status outline with the title embedded in the top border;
+- green `YOU [model] >` prompt;
+- Sagittarius Horizon generation line below the prompt.
+
+The status panel contains only public facts: local user, loopback transport, public alias, upstream model identity, exact connector tag, and locally observed readiness. It does **not** expose private Orchestrator routes, Signal Keys, server identities, internal ports, private evidence, or workstation paths.
+
+## Authority boundary
+
+The Community CLI is advisory-only:
+
+- loopback HTTP transport only;
+- four explicit local connectors;
+- no model download/install authority;
+- no model weights bundled;
+- no tool/file/browser/credential authority;
+- no private Signalproof infrastructure access;
+- no remote worker/VPS routes;
+- no silent fallback;
+- exact local digest surfaced before inference.
+
+See [SECURITY.md](SECURITY.md), [MODELS.md](MODELS.md), and the repository [PUBLIC-BOUNDARY.md](../PUBLIC-BOUNDARY.md).
