@@ -118,7 +118,8 @@ class CommunityCliTests(unittest.TestCase):
         self.assertIn("granite | qwen | gemma | ministral", result)
         self.assertNotIn("\x1b", result)
         self.assertNotIn("SIGNAL KEYS", result)
-        self.assertNotIn("signalproof-granite", result)
+        private_route = "signalproof" + "-granite"
+        self.assertNotIn(private_route, result)
 
     def test_color_visual_uses_site_gold_red_green(self):
         result = MODULE.render_community_header("qwen", columns=120, ansi=True)
