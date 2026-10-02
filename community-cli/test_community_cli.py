@@ -115,7 +115,11 @@ class CommunityCliTests(unittest.TestCase):
         self.assertIn("MODEL        IBM Granite 4.2 8B", result)
         self.assertIn("SAGITTARIUS HORIZON", result)
         self.assertIn("COMMUNITY CONNECTORS", result)
-        self.assertIn("granite | qwen | gemma | ministral", result)
+        commands = next(line for line in result.splitlines() if line.startswith("Commands:"))
+        self.assertIn("granite", commands)
+        self.assertIn("qwen", commands)
+        self.assertIn("gemma", commands)
+        self.assertIn("ministral", commands)
         self.assertNotIn("\x1b", result)
         self.assertNotIn("SIGNAL KEYS", result)
         private_route = "signalproof" + "-granite"
