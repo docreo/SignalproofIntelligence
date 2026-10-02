@@ -86,27 +86,23 @@ def _visible_len(value: str) -> int:
     return len(ANSI_RE.sub("", value))
 
 
-def _site_frame(lines: list[str], *, columns: int, ansi: bool) -> str:
-    """Site-matched full console frame using only public presentation state."""
-    widest = max((_visible_len(line) for line in lines), default=0)
-    width = min(max(64, widest + 4), max(64, columns))
+def _status_panel(lines: list[str], *, columns: int, ansi: bool) -> str:
+    """Site-matched thin gold status frame with title embedded in top border."""
+    width = max(64, min(columns, 100))
     inner = width - 2
+    title = " SIGNALPROOF COMMUNITY CLI "
     gold = "\x1b[1;38;2;255;215;0m" if ansi else ""
+    white = "\x1b[38;2;230;230;230m" if ansi else ""
     reset = "\x1b[0m" if ansi else ""
-    top = "┌" + ("─" * inner) + "┐"
-    bottom = "└" + ("─" * inner) + "┘"
-    out = [gold + top + reset]
-    for line in lines:
-        visible = _visible_len(line)
-        # Header construction already chooses a narrow fallback; truncation is
-        # defensive only and never rewrites model/authority state.
-        if visible > inner - 2:
-            raw = ANSI_RE.sub("", line)[: inner - 2]
-            line = raw
-            visible = len(raw)
-        padding = " " * max(0, inner - 2 - visible)
-        out.append(gold + "│" + reset + " " + line + padding + " " + gold + "│" + reset)
-    out.append(gold + bottom + reset)
+    trail = max(1, inner - len(title) - 1)
+    out = [gold + "┌─" + title + ("─" * max(1, trail - 1)) + "┐" + reset]
+    for value in lines:
+        raw = ANSI_RE.sub("", value)
+        raw = raw[: max(0, inner - 3)]
+        padding = " " * max(0, inner - 2 - len(raw))
+        body = white + raw + reset if ansi else raw
+        out.append(gold + "│" + reset + " " + body + padding + gold + "│" + reset)
+    out.append(gold + "└" + ("─" * inner) + "┘" + reset)
     return "\n".join(out)
 
 
@@ -117,7 +113,7 @@ def render_community_header(
     ansi: bool | None = None,
     installed: bool | None = None,
 ) -> str:
-    """Render the public CLI in the same framed terminal language as the site."""
+    """Match the site's approved CLI structure using public-only facts."""
     if alias not in SUPPORTED_MODELS:
         raise ValueError("unsupported public model alias")
     if columns is None:
@@ -129,61 +125,63 @@ def render_community_header(
     reset = "\x1b[0m" if ansi else ""
     red = "\x1b[38;2;227;24;53m" if ansi else ""
     gold = "\x1b[1;38;2;255;211;49m" if ansi else ""
-    white = "\x1b[38;2;230;230;230m" if ansi else ""
-    body: list[str] = []
+    green = "\x1b[38;2;67;207;117m" if ansi else ""
+    gray = "\x1b[38;2;157;157;157m" if ansi else ""
+    rows: list[str] = []
 
-    wordmark_width = max(map(len, PUBLIC_WORDMARK))
-    if columns >= wordmark_width + 4:
-        body.extend(
+    if columns >= max(map(len, PUBLIC_WORDMARK)):
+        rows.extend(
             (PUBLIC_ROW_COLORS[i] + line + reset) if ansi else line
             for i, line in enumerate(PUBLIC_WORDMARK)
         )
     else:
-        body.append(gold + "SIGNALPROOF" + reset)
+        rows.append(gold + "SIGNALPROOF" + reset)
 
-    usable = max(1, min(columns - 4, max(wordmark_width, 72)))
-    divider = red + ("═" * usable) + reset
-    body.extend((
-        divider,
+    bar = red + ("═" * min(columns, 100)) + reset
+    rows.extend((
+        bar,
         gold + "SIGNALPROOF INTELLIGENCE" + reset
         + "  " + red + "//" + reset
         + "  " + gold + "HUMAN-CONTROLLED AI SYSTEMS" + reset,
         red + "SP://COMMUNITY" + reset + "  //  "
-        + gold + RELEASE + reset + "  //  LOCAL CONNECTORS",
-        divider,
-        "",
-        gold + GENERATION.upper() + reset
-        + "  //  COMMUNITY CLI  //  FOUR LOCAL MODEL CONNECTORS",
+        + gold + "CORE " + RELEASE + reset + "  //  "
+        + gold + "VISUAL V3/RD4" + reset,
+        bar,
         "",
     ))
 
     state = (
-        "READY (installed locally)"
+        "READY"
         if installed is True
         else "NOT INSTALLED LOCALLY"
         if installed is False
-        else "UNVERIFIED (checked before prompt)"
+        else "UNVERIFIED (CHECKED ON FIRST PROMPT)"
     )
     spec = SUPPORTED_MODELS[alias]
-    body.extend((
-        gold + "SIGNALPROOF COMMUNITY CLI" + reset,
-        white + "OPERATOR     LOCAL USER" + reset,
-        white + "TRANSPORT    LOOPBACK ONLY" + reset,
-        white + f"ROUTE        {alias}" + reset,
-        white + f"MODEL        {spec.display_name}" + reset,
-        white + f"TAG          {spec.tag}" + reset,
-        white + f"STATE        {state}" + reset,
-        "",
-        white + "MODELS       granite | qwen | gemma | ministral" + reset,
-        white + "AUTHORITY    CONNECT ONLY / NO MODEL INSTALL / NO TOOLS" + reset,
-        "",
-        white + "Commands: /help  /status  /routes  /model <name>  /exit" + reset,
-        white + "No silent failover. Missing models remain missing." + reset,
-    ))
+    panel = [
+        "OPERATOR     LOCAL USER",
+        "TRANSPORT    LOOPBACK ONLY",
+        f"ROUTE        {alias}",
+        f"MODEL        {spec.display_name}",
+        f"TAG          {spec.tag}",
+        f"STATE        {state}",
+    ]
+    if columns >= 64:
+        rows.append(_status_panel(panel, columns=columns, ansi=ansi))
+    else:
+        rows.append(gold + "SIGNALPROOF COMMUNITY CLI" + reset)
+        rows.extend(panel)
 
-    if columns < 64:
-        return "\n".join(body)
-    return _site_frame(body, columns=columns, ansi=ansi)
+    rows.extend((
+        "",
+        "Commands: /help  /status  /routes  /model granite  /model qwen  /model gemma  /model ministral  /exit",
+        "No silent model failover. Model changes require an explicit /model command.",
+        "",
+        green + "YOU" + reset + "  " + gray + f"[{alias}]" + reset + "  " + green + ">" + reset,
+        "",
+        gold + "SAGITTARIUS HORIZON  //  GENERATION V1  //  COMMUNITY CONNECTORS" + reset,
+    ))
+    return "\n".join(rows)
 
 
 def require_loopback(url: str) -> None:
