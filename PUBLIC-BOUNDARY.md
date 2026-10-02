@@ -1,29 +1,34 @@
 # Public Distribution Boundary
 
-This repository is a sanitized public distribution surface.
+Signalproof Intelligence is a sanitized public distribution surface.
 
 ## Never publish here
 
-- connected-site application data or deltas;
-- private Signalproof server/VPS routes or server inventories;
-- SSH identities, keys, tokens, credentials, or connector secrets;
-- private tenant/customer configuration;
-- internal Build Ledger or Assurance evidence;
-- private model-training state;
-- developer workstation drive paths, home paths, worktrees, quarantine/evidence paths, or mount locations;
+- private Signalproof server/VPS/worker routes or private route IDs;
+- SSH identities, keys, tokens, credentials, connector secrets, or tenant secrets;
+- customer/tenant data or configuration;
+- internal Build Ledger, Assurance, quarantine, or operator evidence;
+- private model-training checkpoints, hashes, state, or training authority;
+- developer workstation paths, worktrees, home paths, mounts, or local evidence paths;
 - private-network addresses or internal topology;
-- implicit routes to private Signalproof infrastructure.
+- implicit or pre-authorized access to private Signalproof infrastructure.
 
-## Public connection rule
+## Community CLI connection rule
 
-A public application or CLI has no inherited access to Signalproof private infrastructure.
+The public Community CLI may connect only to a user-managed local Ollama service over HTTP loopback.
 
-Any future remote connection must be a separately designed surface that requires explicit authentication/login, a narrowly scoped authorization grant, and fail-closed behavior when unauthenticated. Public code must not contain a pre-authorized route to private servers.
+The repository declares four exact connector targets. It does **not** bundle, host, mirror, download, install, or redistribute model weights. Missing models remain missing until the user independently installs them under the applicable upstream terms.
 
-## Local path rule
+Public code has no inherited access to private Signalproof infrastructure.
 
-Public/customer-visible output must not expose developer-machine filesystem locations. Local launchers may internally reference the installing user's own local runtime paths, but those resolved paths should not be emitted into public logs, documentation, or command output.
+## Visual parity rule
+
+Public presentation may reproduce the approved Signalproof terminal visual language, but every displayed field must be public-safe. Private Orchestrator routes, Signal Keys, private identities, internal ports, private evidence, and developer paths must not be copied merely to achieve visual parity.
+
+## Future remote access
+
+Any future remote connection must be a separately reviewed authenticated surface with explicit login, narrowly scoped authorization, revocation/disconnect behavior, no inherited private credentials, and fail-closed unauthenticated tests.
 
 ## Enforcement
 
-`tools/check_public_sanitization.py` runs in CI and blocks common public-boundary violations.
+`tools/check_public_sanitization.py` and repository CI block common public-boundary violations. CODEOWNERS requests owner review. Repository-level GitHub branch/ruleset enforcement is an administrative setting and is tracked separately in `REPOSITORY-PROTECTION.md`.
