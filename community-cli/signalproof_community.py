@@ -8,6 +8,7 @@ import shutil
 import sys
 import urllib.error
 import urllib.request
+import re
 from dataclasses import dataclass
 from urllib.parse import urlparse
 
@@ -78,26 +79,35 @@ def color_enabled(stream=None) -> bool:
     )
 
 
-def _frame(lines: list[str], *, columns: int, ansi: bool) -> str:
-    width = max(64, min(columns, 100))
+ANSI_RE = re.compile(r"\x1b\\[[0-9;]*m")
+
+
+def _visible_len(value: str) -> int:
+    return len(ANSI_RE.sub("", value))
+
+
+def _site_frame(lines: list[str], *, columns: int, ansi: bool) -> str:
+    """Site-matched full console frame using only public presentation state."""
+    widest = max((_visible_len(line) for line in lines), default=0)
+    width = min(max(64, widest + 4), max(64, columns))
     inner = width - 2
-    title = " SIGNALPROOF COMMUNITY CLI "
-    gold = "\x1b[38;2;255;215;0m" if ansi else ""
-    white = "\x1b[38;2;230;230;230m" if ansi else ""
+    gold = "\x1b[1;38;2;255;215;0m" if ansi else ""
     reset = "\x1b[0m" if ansi else ""
-    lead = max(1, inner - len(title) - 1)
-    top = "┌─" + title + ("─" * max(1, lead - 1)) + "┐"
-    rows = [gold + top + reset]
+    top = "┌" + ("─" * inner) + "┐"
+    bottom = "└" + ("─" * inner) + "┘"
+    out = [gold + top + reset]
     for line in lines:
-        text = line[: max(0, inner - 2)]
-        pad = " " * max(0, inner - 1 - len(text))
-        rows.append(
-            gold + "│" + reset + " "
-            + (white + text + reset if ansi else text)
-            + pad + gold + "│" + reset
-        )
-    rows.append(gold + "└" + ("─" * inner) + "┘" + reset)
-    return "\n".join(rows)
+        visible = _visible_len(line)
+        # Header construction already chooses a narrow fallback; truncation is
+        # defensive only and never rewrites model/authority state.
+        if visible > inner - 2:
+            raw = ANSI_RE.sub("", line)[: inner - 2]
+            line = raw
+            visible = len(raw)
+        padding = " " * max(0, inner - 2 - visible)
+        out.append(gold + "│" + reset + " " + line + padding + " " + gold + "│" + reset)
+    out.append(gold + bottom + reset)
+    return "\n".join(out)
 
 
 def render_community_header(
@@ -107,10 +117,11 @@ def render_community_header(
     ansi: bool | None = None,
     installed: bool | None = None,
 ) -> str:
+    """Render the public CLI in the same framed terminal language as the site."""
     if alias not in SUPPORTED_MODELS:
         raise ValueError("unsupported public model alias")
     if columns is None:
-        columns = shutil.get_terminal_size(fallback=(100, 30)).columns
+        columns = shutil.get_terminal_size(fallback=(120, 30)).columns
     columns = max(1, int(columns))
     if ansi is None:
         ansi = color_enabled()
@@ -118,27 +129,31 @@ def render_community_header(
     reset = "\x1b[0m" if ansi else ""
     red = "\x1b[38;2;227;24;53m" if ansi else ""
     gold = "\x1b[1;38;2;255;211;49m" if ansi else ""
-    rows: list[str] = []
-    if columns >= max(map(len, PUBLIC_WORDMARK)):
-        rows.extend(
+    white = "\x1b[38;2;230;230;230m" if ansi else ""
+    body: list[str] = []
+
+    wordmark_width = max(map(len, PUBLIC_WORDMARK))
+    if columns >= wordmark_width + 4:
+        body.extend(
             (PUBLIC_ROW_COLORS[i] + line + reset) if ansi else line
             for i, line in enumerate(PUBLIC_WORDMARK)
         )
     else:
-        rows.append(gold + "SIGNALPROOF" + reset)
+        body.append(gold + "SIGNALPROOF" + reset)
 
-    bar = red + ("═" * min(columns, 100)) + reset
-    rows.extend((
-        bar,
+    usable = max(1, min(columns - 4, max(wordmark_width, 72)))
+    divider = red + ("═" * usable) + reset
+    body.extend((
+        divider,
         gold + "SIGNALPROOF INTELLIGENCE" + reset
         + "  " + red + "//" + reset
         + "  " + gold + "HUMAN-CONTROLLED AI SYSTEMS" + reset,
         red + "SP://COMMUNITY" + reset + "  //  "
         + gold + RELEASE + reset + "  //  LOCAL CONNECTORS",
-        bar,
+        divider,
         "",
         gold + GENERATION.upper() + reset
-        + "  //  COMMUNITY CONNECTOR  //  FOUR LOCAL ROUTES",
+        + "  //  COMMUNITY CLI  //  FOUR LOCAL MODEL CONNECTORS",
         "",
     ))
 
@@ -150,25 +165,25 @@ def render_community_header(
         else "UNVERIFIED (checked before prompt)"
     )
     spec = SUPPORTED_MODELS[alias]
-    panel = [
-        "OPERATOR     LOCAL USER",
-        "TRANSPORT    LOOPBACK ONLY",
-        f"ROUTE        {alias}",
-        f"MODEL        {spec.display_name}",
-        f"TAG          {spec.tag}",
-        f"STATE        {state}",
-    ]
-    if columns >= 64:
-        rows.append(_frame(panel, columns=columns, ansi=ansi))
-    else:
-        rows.extend(panel)
-
-    rows.extend((
+    body.extend((
+        gold + "SIGNALPROOF COMMUNITY CLI" + reset,
+        white + "OPERATOR     LOCAL USER" + reset,
+        white + "TRANSPORT    LOOPBACK ONLY" + reset,
+        white + f"ROUTE        {alias}" + reset,
+        white + f"MODEL        {spec.display_name}" + reset,
+        white + f"TAG          {spec.tag}" + reset,
+        white + f"STATE        {state}" + reset,
         "",
-        "Commands: /help  /status  /routes  /model granite  /model qwen  /model gemma  /model ministral  /exit",
-        "No silent model failover. Connector-only; no tool or model-install authority.",
+        white + "MODELS       granite | qwen | gemma | ministral" + reset,
+        white + "AUTHORITY    CONNECT ONLY / NO MODEL INSTALL / NO TOOLS" + reset,
+        "",
+        white + "Commands: /help  /status  /routes  /model <name>  /exit" + reset,
+        white + "No silent failover. Missing models remain missing." + reset,
     ))
-    return "\n".join(rows)
+
+    if columns < 64:
+        return "\n".join(body)
+    return _site_frame(body, columns=columns, ansi=ansi)
 
 
 def require_loopback(url: str) -> None:
