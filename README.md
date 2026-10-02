@@ -1,65 +1,85 @@
 # Signalproof Intelligence
 
-Fresh sanitized public distribution repository for the Signalproof Intelligence Community CLI and the Build Your Own AI CLI learning pack.
+Signalproof Intelligence is the public repository for governed intelligence systems, tools, models-as-connections, and human-controlled infrastructure.
 
-This repository was created from an explicit public whitelist. It does **not** inherit Git history from the previous public repository.
-
-## Public boundary
-
-This repository contains no authorized route to private Signalproof servers, VPS workers, SSH surfaces, credentials, connectors, tenant state, internal evidence, model-training state, or developer-machine filesystem locations.
-
-Public applications do not inherit private Signalproof access.
-
-The current Community CLI is local-only and may communicate only with a local Ollama runtime over HTTP loopback.
-
-See [PUBLIC-BOUNDARY.md](PUBLIC-BOUNDARY.md).
-
-Product line: https://signalproofintelligence.com  
-Signalproof Framework: https://signalproof.com
-
-## Signalproof CLI preview
-
-![Signalproof CLI preview](docs/assets/signalproof-cli-preview.svg)
-
-This sanitized SVG illustrates the **actual Community CLI interactive `chat granite` presentation**: the owner-accepted six-row Signalproof wordmark, gold/red dividers and plain session details, using only public local-demo values. The public heading is `SIGNALPROOF COMMUNITY CLI`, not the private Orchestrator. This public repository does not inherit private Signal Keys, internal routing, installation evidence, accounts or server access.
+This repository is **public-safe by construction**. It does not inherit private Signalproof routes, credentials, customer state, internal evidence, training state, or operator-machine paths.
 
 ## Community CLI
 
-Current exact local routes:
-
-- `qwen` -> `qwen3.6:latest`
-- `granite` -> `granite4.2:8b`
-
-The CLI is advisory-only, uses exact-route selection, rejects silent fallback, exposes no model tool authority, and asks before optional model downloads.
-
-Quick start:
+Stable repository path:
 
 ```text
-cd community-cli
-python install.py
-signalproof-community setup
-signalproof-community status
-signalproof-community chat qwen
+community-cli/
 ```
 
-Model weights are not bundled.
+Stable command:
 
-## Build Your Own AI CLI
+```text
+signalproof-community
+```
 
-The companion guide explains how to build a multi-model CLI with explicit routing, bounded model authority, human approval gates, transport restrictions, verification, release discipline, and reusable CLI-builder skills.
+Current public connector targets:
 
-Start with:
+- IBM Granite 4.2 8B
+- Qwen 3.6
+- Google Gemma 4
+- Mistral AI Ministral 3 3B
 
-`build-your-own-cli/BUILD-YOUR-OWN-CLI.md`
+**Models are not included.** Signalproof Intelligence does not download, bundle, mirror, host, install, or redistribute their weights. The CLI only checks for and connects to exact local model tags already installed by the user.
 
-## Sanitization
+See [community-cli/README.md](community-cli/README.md).
 
-Every push and pull request runs `tools/check_public_sanitization.py`.
+## CLI visual identity
 
-The gate rejects common public-boundary violations including connected-site data, workstation paths, private-network addresses, and private-key material.
+The Community CLI uses the approved Signalproof terminal language reflected on the Signalproof Intelligence site:
 
-## License
+- gold/yellow six-row wordmark;
+- red separator rules;
+- Signalproof Intelligence / Human-Controlled AI Systems header;
+- `SP://COMMUNITY` plane;
+- V2/RD1 community core identity with V3/RD4 visual identity;
+- thin gold status frame with the title embedded in its top border;
+- green `YOU [model] >` prompt;
+- Sagittarius Horizon generation line.
 
-Unless a file states otherwise, Signalproof-authored code and documentation in this repository are licensed under Apache License 2.0. Third-party models and software retain their own upstream licenses and terms.
+![Signalproof Intelligence Community CLI](docs/assets/signalproof-cli-preview.svg)
+
+## Public boundary
+
+Read [PUBLIC-BOUNDARY.md](PUBLIC-BOUNDARY.md) before contributing.
+
+Never publish:
+
+- private Signalproof servers/workers or route IDs;
+- SSH identities, keys, secrets, tokens, or credentials;
+- tenant/customer configuration or data;
+- internal Build Ledger or evidence;
+- private model-training checkpoints/state;
+- developer workstation paths;
+- private network topology;
+- implicit access to private infrastructure.
+
+## Security and governance
+
+- Apache License 2.0 applies to Signalproof-authored code/documentation unless a file states otherwise.
+- Third-party software and model weights retain their own upstream terms.
+- Public sanitization runs in CI.
+- Community CLI tests cover supported Python versions and desktop OSes.
+- CODEOWNERS requests owner review for repository changes.
+- Model connectors are loopback-only and advisory-only.
+- No silent model fallback.
+- No model install/download authority.
+- No model weights in this repository.
+
+See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), and [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+
+## Identity
+
+Current migration candidate: **Community CLI V2/RD1**  
+Visual contract: **V3/RD4**  
+Current generation: **Sagittarius Horizon**
+
+Product: https://signalproofintelligence.com  
+Framework: https://signalproof.com
 
 Copyright 2026 Doc Reo / Signalproof Intelligence.
