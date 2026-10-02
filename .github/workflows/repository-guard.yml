@@ -1,0 +1,45 @@
+name: Repository Guard
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Require governance files
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s LICENSE
+          test -s NOTICE
+          test -s SECURITY.md
+          test -s PUBLIC-BOUNDARY.md
+          test -s THIRD-PARTY-NOTICES.md
+          test -s REPOSITORY-PROTECTION.md
+          test -s .github/CODEOWNERS
+      - name: Run public sanitization and model-artifact guard
+        run: python tools/check_public_sanitization.py
+      - name: Require stable Community CLI surface
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s community-cli/signalproof_community.py
+          test -s community-cli/install.py
+          grep -Fq 'signalproof-community' community-cli/README.md
+          grep -Fq 'model_install_authority' community-cli/signalproof_community.py
+          if grep -R -n -E 'ollama[[:space:]]+pull' community-cli; then
+            echo 'Model download command found in Community CLI.'
+            exit 1
+          fi
