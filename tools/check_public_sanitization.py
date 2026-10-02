@@ -17,6 +17,10 @@ EXCLUDED_DIRS = {
     ".git", "__pycache__", ".venv", "venv", "node_modules",
 }
 
+MODEL_WEIGHT_SUFFIXES = {
+    ".gguf", ".safetensors", ".onnx", ".pt", ".pth", ".ckpt",
+}
+
 RULES = [
     ("Windows user path", re.compile(r"\b[A-Za-z]:\\Users\\[^\\\s]+", re.IGNORECASE)),
     ("Signalproof workstation path", re.compile(r"\bF:\\(?:SP|Downloads|ai-apps)\\", re.IGNORECASE)),
@@ -64,6 +68,16 @@ def iter_text_files():
 
 def main() -> int:
     failures: list[tuple[Path, str, str]] = []
+
+    for path in ROOT.rglob("*"):
+        if not path.is_file() or any(part in EXCLUDED_DIRS for part in path.parts):
+            continue
+        if path.suffix.lower() in MODEL_WEIGHT_SUFFIXES:
+            failures.append((
+                path.relative_to(ROOT),
+                "model weight artifact forbidden in public connector repository",
+                path.name,
+            ))
     for path in iter_text_files():
         try:
             text = path.read_text(encoding="utf-8")
