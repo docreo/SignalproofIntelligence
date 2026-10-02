@@ -26,6 +26,7 @@ For `main`, enable a GitHub branch/ruleset with:
 5. require status checks:
    - Signalproof Community CLI test matrix;
    - Public Sanitization;
+   - Repository Guard;
 6. require conversation resolution;
 7. block force pushes;
 8. block branch deletion;
