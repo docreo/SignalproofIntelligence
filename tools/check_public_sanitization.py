@@ -94,14 +94,19 @@ def main() -> int:
             if route_id.lower() in lower:
                 failures.append((path.relative_to(ROOT), "private route id", route_id))
 
-        for pattern in MODEL_PULL_PATTERNS:
-            match = pattern.search(text)
-            if match:
-                failures.append((
-                    path.relative_to(ROOT),
-                    "model download/install execution path",
-                    match.group(0)[:120],
-                ))
+        # The shipped public Community CLI and operational repository surfaces
+        # must never acquire model weights. The separate build-your-own learning
+        # pack may discuss implementation patterns and is not executed by the
+        # Community CLI, so it is excluded from this runtime-acquisition rule.
+        if "build-your-own-cli" not in path.parts:
+            for pattern in MODEL_PULL_PATTERNS:
+                match = pattern.search(text)
+                if match:
+                    failures.append((
+                        path.relative_to(ROOT),
+                        "model download/install execution path",
+                        match.group(0)[:120],
+                    ))
 
     if failures:
         print("PUBLIC SANITIZATION: FAIL")
