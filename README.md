@@ -52,6 +52,12 @@ Start with:
 
 `build-your-own-cli/BUILD-YOUR-OWN-CLI.md`
 
+## Standards alignment
+
+This public distribution documents selected governance controls against NIST-informed risk-management and TEVV concepts. The mapping is scoped to what this repository actually implements and does not claim NIST certification, endorsement, or universal compliance.
+
+See [docs/STANDARDS-ALIGNMENT.md](docs/STANDARDS-ALIGNMENT.md).
+
 ## Sanitization
 
 Every push and pull request runs `tools/check_public_sanitization.py`.
