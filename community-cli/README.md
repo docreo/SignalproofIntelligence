@@ -86,6 +86,12 @@ The public community edition is deliberately advisory-only:
 
 This is an execution boundary around upstream models. It is not a claim that the models were retrained or modified by Signalproof.
 
+## Standards alignment
+
+The Community CLI's explicit routing, no-silent-fallback behavior, local transport boundary, human approval before optional downloads, and limited model authority are mapped to selected NIST AI RMF and TEVV concepts in [../docs/STANDARDS-ALIGNMENT.md](../docs/STANDARDS-ALIGNMENT.md).
+
+This is a component-specific crosswalk, not a claim of NIST certification, endorsement, or universal NIST compliance.
+
 ## Learn to build your own
 
 See `../build-your-own-cli/BUILD-YOUR-OWN-CLI.md`.
